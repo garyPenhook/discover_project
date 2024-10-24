@@ -1,5 +1,5 @@
 
-
+/* Testing Discovery board STM32F030R8
            
 
 #include "stm32f030x8.h"

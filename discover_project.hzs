@@ -39,7 +39,7 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="11" y="2" useTextEdit="1" path="main.c" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="56" y="10" useTextEdit="1" path="main.c" left="0" selected="1" top="0" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="3" y="102" useTextEdit="1" path="../../../.rowley_associates_limited/CrossWorks for ARM/v5/packages/targets/STM32/include/stm32f030x8.h" left="0" top="72" codecName="Default"/>
  </Files>
  <ARMCrossStudioWindow activeProject="discover_project" fileDialogDefaultFilter="*.c" autoConnectTarget="" buildConfiguration="THUMB Release" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="/home/avr1/.rowley_associates_limited/CrossWorks for ARM/packages/targets/STM32/include" debugSearchPath="" autoConnectCapabilities="0"/>
