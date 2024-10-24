@@ -1,0 +1,118 @@
+
+discover_project THUMB Debug/main.o:     file format elf32-littlearm
+
+
+Disassembly of section .text.main:
+
+00000000 <main>:
+#include "stm32f030x8.h"
+
+
+void delay(volatile uint32_t delay);
+
+int main(void) {
+   0:	b510      	push	{r4, lr}
+    // Enable the clock for GPIOC (bit 19 in RCC_AHBENR)
+    RCC->AHBENR |= RCC_AHBENR_GPIOCEN;
+   2:	4b19      	ldr	r3, [pc, #100]	@ (68 <main+0x68>)
+   4:	695a      	ldr	r2, [r3, #20]
+   6:	4b18      	ldr	r3, [pc, #96]	@ (68 <main+0x68>)
+   8:	2180      	movs	r1, #128	@ 0x80
+   a:	0309      	lsls	r1, r1, #12
+   c:	430a      	orrs	r2, r1
+   e:	615a      	str	r2, [r3, #20]
+
+    // Set PC8 as output (MODER8[1:0] = 01)
+    GPIOC->MODER &= ~(GPIO_MODER_MODER8_Msk); // Clear current MODER8 setting
+  10:	4b16      	ldr	r3, [pc, #88]	@ (6c <main+0x6c>)
+  12:	681a      	ldr	r2, [r3, #0]
+  14:	4b15      	ldr	r3, [pc, #84]	@ (6c <main+0x6c>)
+  16:	4916      	ldr	r1, [pc, #88]	@ (70 <main+0x70>)
+  18:	400a      	ands	r2, r1
+  1a:	601a      	str	r2, [r3, #0]
+    GPIOC->MODER |= (1U << GPIO_MODER_MODER8_Pos); // Set MODER8 to 01 (output)
+  1c:	4b13      	ldr	r3, [pc, #76]	@ (6c <main+0x6c>)
+  1e:	681a      	ldr	r2, [r3, #0]
+  20:	4b12      	ldr	r3, [pc, #72]	@ (6c <main+0x6c>)
+  22:	2180      	movs	r1, #128	@ 0x80
+  24:	0249      	lsls	r1, r1, #9
+  26:	430a      	orrs	r2, r1
+  28:	601a      	str	r2, [r3, #0]
+
+    // Set PC8 output type to push-pull (OTYPER8 = 0)
+    GPIOC->OTYPER &= ~(GPIO_OTYPER_OT_8);
+  2a:	4b10      	ldr	r3, [pc, #64]	@ (6c <main+0x6c>)
+  2c:	685a      	ldr	r2, [r3, #4]
+  2e:	4b0f      	ldr	r3, [pc, #60]	@ (6c <main+0x6c>)
+  30:	4910      	ldr	r1, [pc, #64]	@ (74 <main+0x74>)
+  32:	400a      	ands	r2, r1
+  34:	605a      	str	r2, [r3, #4]
+
+    // Set PC8 output speed to low (OSPEEDR8 = 00)
+    GPIOC->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEEDR8_Msk);
+  36:	4b0d      	ldr	r3, [pc, #52]	@ (6c <main+0x6c>)
+  38:	689a      	ldr	r2, [r3, #8]
+  3a:	4b0c      	ldr	r3, [pc, #48]	@ (6c <main+0x6c>)
+  3c:	490c      	ldr	r1, [pc, #48]	@ (70 <main+0x70>)
+  3e:	400a      	ands	r2, r1
+  40:	609a      	str	r2, [r3, #8]
+
+    // Disable pull-up/pull-down for PC8 (PUPDR8 = 00)
+    GPIOC->PUPDR &= ~(GPIO_PUPDR_PUPDR8_Msk);
+  42:	4b0a      	ldr	r3, [pc, #40]	@ (6c <main+0x6c>)
+  44:	68da      	ldr	r2, [r3, #12]
+  46:	4b09      	ldr	r3, [pc, #36]	@ (6c <main+0x6c>)
+  48:	4909      	ldr	r1, [pc, #36]	@ (70 <main+0x70>)
+  4a:	400a      	ands	r2, r1
+  4c:	60da      	str	r2, [r3, #12]
+
+    // Main loop
+    for(;;) {
+        // Toggle PC8 (ODR8)
+        GPIOC->ODR ^= GPIO_ODR_8;
+  4e:	4b07      	ldr	r3, [pc, #28]	@ (6c <main+0x6c>)
+  50:	695a      	ldr	r2, [r3, #20]
+  52:	4b06      	ldr	r3, [pc, #24]	@ (6c <main+0x6c>)
+  54:	2180      	movs	r1, #128	@ 0x80
+  56:	0049      	lsls	r1, r1, #1
+  58:	404a      	eors	r2, r1
+  5a:	615a      	str	r2, [r3, #20]
+
+        // Simple delay
+        delay(100000);
+  5c:	4b06      	ldr	r3, [pc, #24]	@ (78 <main+0x78>)
+  5e:	0018      	movs	r0, r3
+  60:	f7ff fffe 	bl	0 <main>
+        GPIOC->ODR ^= GPIO_ODR_8;
+  64:	e7f3      	b.n	4e <main+0x4e>
+  66:	46c0      	nop			@ (mov r8, r8)
+  68:	40021000 	.word	0x40021000
+  6c:	48000800 	.word	0x48000800
+  70:	fffcffff 	.word	0xfffcffff
+  74:	fffffeff 	.word	0xfffffeff
+  78:	000186a0 	.word	0x000186a0
+
+Disassembly of section .text.delay:
+
+00000000 <delay>:
+        
+    }
+}
+
+void delay(volatile uint32_t delay) {
+   0:	b082      	sub	sp, #8
+   2:	9001      	str	r0, [sp, #4]
+    while(delay--) {
+   4:	46c0      	nop			@ (mov r8, r8)
+   6:	9b01      	ldr	r3, [sp, #4]
+   8:	1e5a      	subs	r2, r3, #1
+   a:	9201      	str	r2, [sp, #4]
+   c:	2b00      	cmp	r3, #0
+   e:	d1fa      	bne.n	6 <delay+0x6>
+        // Just wait
+    }
+}
+  10:	46c0      	nop			@ (mov r8, r8)
+  12:	46c0      	nop			@ (mov r8, r8)
+  14:	b002      	add	sp, #8
+  16:	4770      	bx	lr
